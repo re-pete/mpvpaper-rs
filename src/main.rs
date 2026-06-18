@@ -1,5 +1,6 @@
 use std::ffi::c_void;
 
+use calloop::signals::{Signal, Signals};
 use calloop_wayland_source::WaylandSource;
 use clap::Parser;
 use khronos_egl as egl;
@@ -467,6 +468,14 @@ fn main() -> anyhow::Result<()> {
     let display_ptr = conn.display().id().as_ptr() as *mut c_void;
     let egl = init_egl(display_ptr);
 
+    // ── Signal handling ───────────────────────────────────────────────────────
+    // Block SIGTERM/SIGINT NOW, before libmpv spawns its worker threads.
+    // Threads inherit the signal mask of their parent, so libmpv's threads will
+    // also have these signals blocked — preventing libmpv's own signal handlers
+    // from firing. The signals are consumed by calloop's signalfd instead.
+    let sig_source = Signals::new(&[Signal::SIGTERM, Signal::SIGINT])
+        .expect("Failed to block signals");
+
     // ── mpv ───────────────────────────────────────────────────────────────────
     // Box::leak gives us &'static Mpv so RenderContext<'static> can live in AppState
     let mpv_options = args.mpv_options.clone();
@@ -586,6 +595,10 @@ fn main() -> anyhow::Result<()> {
             }
         })
         .expect("Failed to insert ping source");
+
+    loop_handle
+        .insert_source(sig_source, |_, _, _| std::process::exit(0))
+        .expect("Failed to insert signal source");
 
     WaylandSource::new(conn, eq)
         .insert(loop_handle)

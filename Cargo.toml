@@ -9,7 +9,7 @@ wayland-client = { version = "0.31", features = ["system"] }
 wayland-egl = "0.32"
 khronos-egl = { version = "6", features = ["static"] }
 libmpv2 = { version = "6", features = ["render"] }
-calloop = "0.14"
+calloop = { version = "0.14", features = ["signals"] }
 calloop-wayland-source = "0.4"
 clap = { version = "4", features = ["derive"] }
 libc = "0.2"
