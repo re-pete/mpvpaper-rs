@@ -1,6 +1,6 @@
 # mpvpaper-rs Design
 
-Rust rewrite of [mpvpaper](https://github.com/GhostNaN/mpvpaper), a Wayland video wallpaper player.
+Rust rewrite of [mpvpaper](https://github.com/GhostNaN/mpvpaper), a Wayland video and image wallpaper player.
 
 ## Motivation
 
@@ -12,7 +12,7 @@ these classes of bugs.
 ## Architecture
 
 **One process per monitor** — same as the C version. Launch multiple instances to play different
-videos on different outputs. A single instance still accepts `ALL` to mirror across every output.
+media on different outputs. A single instance still accepts `ALL` to mirror across every output.
 
 ### Stack
 
@@ -89,7 +89,7 @@ calloop event loop
 ## MVP scope
 
 Included:
-- Play a video/URL on a named output or `ALL`
+- Play a video, image, or URL on a named output or `ALL`
 - `-o "mpv options"` forwarding via temp config file
 - `-l layer` (background / bottom / top / overlay)
 - `-v` verbose

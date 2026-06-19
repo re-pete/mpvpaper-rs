@@ -1,6 +1,6 @@
 # mpvpaper-rs — Developer Notes
 
-Single-binary Rust rewrite of mpvpaper. Everything lives in `src/main.rs`.
+Single-binary Rust rewrite of mpvpaper (video and image wallpaper player). Everything lives in `src/main.rs`.
 See `DESIGN.md` for the full architecture rationale.
 
 ## Key crate facts (verified against source)

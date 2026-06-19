@@ -32,12 +32,12 @@ use wayland_egl::WlEglSurface;
 // ── CLI ───────────────────────────────────────────────────────────────────────
 
 #[derive(Parser, Debug)]
-#[command(name = "mpvpaper-rs", about = "Video wallpaper using mpv on Wayland")]
+#[command(name = "mpvpaper-rs", about = "Video/image wallpaper using mpv on Wayland")]
 struct Args {
     /// Output name to use (e.g. DP-1, HDMI-A-1, ALL)
     output: String,
 
-    /// Video file or URL to play (omit when using --show-outputs)
+    /// Video, image, or URL to display (omit when using --show-outputs)
     #[arg(required_unless_present = "show_outputs")]
     video: Option<String>,
 

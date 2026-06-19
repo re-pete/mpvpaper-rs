@@ -1,6 +1,6 @@
 # mpvpaper-rs
 
-Rust rewrite of [mpvpaper](../README.md) — a video wallpaper player for wlroots-based Wayland
+Rust rewrite of [mpvpaper](../README.md) — a video and image wallpaper player for wlroots-based Wayland
 compositors (Sway, Hyprland, etc.). Uses mpv for playback, EGL for rendering, and
 `zwlr_layer_shell_v1` for the wallpaper layer surface.
 
@@ -24,7 +24,7 @@ The binary lands at `target/release/mpvpaper-rs`.
 ## Usage
 
 ```
-mpvpaper-rs [OPTIONS] <OUTPUT> <VIDEO>
+mpvpaper-rs [OPTIONS] <OUTPUT> <MEDIA>
 ```
 
 **Arguments:**
@@ -32,7 +32,7 @@ mpvpaper-rs [OPTIONS] <OUTPUT> <VIDEO>
 | Argument | Description |
 |----------|-------------|
 | `<OUTPUT>` | Wayland output name (`DP-2`, `HDMI-A-1`, `ALL`) |
-| `<VIDEO>` | Video file, URL, or `--playlist=/path/to/playlist` |
+| `<MEDIA>` | Video, image, URL, or `--playlist=/path/to/playlist` |
 
 **Options:**
 
