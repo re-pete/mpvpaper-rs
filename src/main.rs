@@ -257,6 +257,7 @@ impl CompositorHandler for AppState {
         for i in 0..self.outputs.len() {
             if self.outputs[i].layer.wl_surface() == surface {
                 self.outputs[i].scale = new_factor;
+                surface.set_buffer_scale(new_factor);
                 if let Some(ew) = &self.outputs[i].egl_window {
                     let (w, h) = self.outputs[i].size;
                     ew.resize(w as i32 * new_factor, h as i32 * new_factor, 0, 0);
@@ -384,6 +385,16 @@ impl LayerShellHandler for AppState {
             let scale = self.outputs[idx].scale;
             let pw = w as i32 * scale;
             let ph = h as i32 * scale;
+
+            if self.verbose {
+                eprintln!("[mpvpaper] configure new_size=({w},{h}) scale={scale} pw={pw} ph={ph}");
+            }
+
+            // Tell the compositor how many buffer pixels map to one logical pixel.
+            // Without this, the compositor defaults to buffer_scale=1 and clips an
+            // oversized buffer (e.g. scale=2 on a fractional-1.25x output → 6144×3456
+            // buffer clipped to 3072×1728 logical = top-left 1/4 of the video).
+            wl_surface.set_buffer_scale(scale);
 
             let egl_window = WlEglSurface::new(wl_surface.id(), pw, ph)
                 .expect("Failed to create WlEglSurface");
