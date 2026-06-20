@@ -498,6 +498,10 @@ fn main() -> anyhow::Result<()> {
             init.set_option("config", "yes")?;
             init.set_option("background-color", "#00000000")?;
             init.set_option("vo", "libmpv")?;
+            // Offload video decode to the GPU when a usable hwdec backend
+            // exists; mpv silently falls back to software decode otherwise.
+            // Set before the user config below so `hwdec=no` can override.
+            init.set_option("hwdec", "auto")?;
             // Extra mpv options forwarded via temp config file
             if let Some(opts) = &mpv_options {
                 let path = format!("/tmp/mpvpaper-rs-{}.conf", std::process::id());
